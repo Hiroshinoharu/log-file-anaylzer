@@ -85,6 +85,9 @@ End of summary
 ------------------------
 ```
 
+## Real World Use Cases
+This tool simulates a real-world log analyzer used in DevOps, security, and performance monitoring. It helps detect suspicious activity (e.g., repeated failed logins or brute-force attempts), identify top requested endpoints, analyze traffic spikes, and track error trends through HTTP status codes. It's a simplified CLI version of what tools like ELK, GoAccess, or Splunk do in production environments.
+
 ## License
 
 MIT License - free to use and modify
