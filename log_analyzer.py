@@ -9,6 +9,7 @@ from collections import Counter
 from pathlib import Path
 import json
 
+# Define the regex pattern to match the log lines 
 LOG_PATTERN = re.compile(
     r'(?P<ip>\d+\.\d+\.\d+).*?\[(?P<datetime>[^\]]+)\] '
     r'"(?P<method>GET|POST|PUT|DELETE|HEAD) (?P<path>[^ ]+) HTTP/1\.[01]" '
@@ -16,18 +17,22 @@ LOG_PATTERN = re.compile(
 )
 
 def parse_log(file_path):
+    """Parse the log file and count the occurrences of IPs, statuses, and URLs."""
     counters = {
         'ips': Counter(),
         'statuses': Counter(),
         'urls': Counter(),
     }
 
+    # Read the log file line by line
     with open(file_path, 'r') as f:
         for line in f:
+            # Skip empty lines and comments
             match = LOG_PATTERN.match(line)
             if not match:
                 continue
-
+            
+            # Extract the IP, status, and URL from the match
             data = match.groupdict()
             counters['ips'][data['ip']] += 1
             counters['statuses'][data['status']] += 1
@@ -36,6 +41,7 @@ def parse_log(file_path):
     return counters
 
 def print_summary(counters):
+    """Print a summary of the requests."""
     print('Summary of the requests:')
     print('------------------------')
     print('Most common IPs:')
@@ -54,6 +60,7 @@ def print_summary(counters):
     print('------------------------')
 
 def main():
+    """Main function to run the log analyzer."""
     log_file = input('Enter the path to the log file: ').strip()
     if not Path(log_file).is_file():
         print(f'File {log_file} does not exist.')
