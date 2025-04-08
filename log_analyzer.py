@@ -5,8 +5,9 @@ Date: 2025-04-08
 Description: This script analyzes a log file and generates a summary of the requests.
 """
 import re
-from collections import defaultdict, Counter
+from collections import Counter
 from pathlib import Path
+import json
 
 LOG_PATTERN = re.compile(
     r'(?P<ip>\d+\.\d+\.\d+).*?\[(?P<datetime>[^\]]+)\] '
@@ -60,6 +61,10 @@ def main():
 
     counters = parse_log(log_file)
     print_summary(counters)
+    # Save the summary to a JSON file
+    with open('summary.json', 'w') as f:
+        json.dump(counters, f, indent=4)
+    print('Summary saved to summary.json')
 
 if __name__ == '__main__':
     main()
